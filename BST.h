@@ -37,13 +37,15 @@ public:
         return node;
     }
 
-    void inorder(BSTNode* node) {
+    void inorder(BSTNode* node, string cityName[]) {
         if(node == NULL) return;
 
-        inorder(node->left);
-        cout << "City: " << node->city
-             << " Severity: " << node->severity << endl;
-        inorder(node->right);
+        inorder(node->left, cityName);
+
+        cout << "City: " << cityName[node->city]
+             << " | Severity: " << node->severity << endl;
+
+        inorder(node->right, cityName);
     }
 };
 
