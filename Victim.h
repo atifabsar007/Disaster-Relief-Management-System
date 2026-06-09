@@ -9,49 +9,34 @@ struct Victim {
     int age;
     string gender;
     string condition;
-    string shelterAssigned;
+    string shelter;
     Victim* next;
 };
 
 class VictimList {
 public:
-    Victim* head;
+    Victim* head = NULL;
 
-    VictimList() {
-        head = NULL;
-    }
-
-    void addVictim(string name, int age, string gender, string condition, string shelter) {
-
+    void add(string name, int age, string gender, string condition, string shelter) {
         Victim* v = new Victim();
         v->name = name;
         v->age = age;
         v->gender = gender;
         v->condition = condition;
-        v->shelterAssigned = shelter;
-
+        v->shelter = shelter;
         v->next = head;
         head = v;
     }
 
-    void display() {
-
-        cout << "\n🏠 REGISTERED VICTIMS\n";
-        cout << "---------------------------------\n";
-
-        Victim* temp = head;
-
-        while(temp) {
-            cout << "Name: " << temp->name
-                 << " | Age: " << temp->age
-                 << " | Gender: " << temp->gender
-                 << " | Condition: " << temp->condition
-                 << " | Shelter: " << temp->shelterAssigned << endl;
-
-            temp = temp->next;
+    void show() {
+        cout << "\n🏠 VICTIM LIST\n";
+        Victim* t = head;
+        while(t) {
+            cout << t->name << " | " << t->age
+                 << " | " << t->condition
+                 << " | Shelter: " << t->shelter << endl;
+            t = t->next;
         }
-
-        cout << "---------------------------------\n";
     }
 };
 
