@@ -8,19 +8,19 @@ class LogSystem {
 public:
     vector<string> logs;
 
-    string timeNow() {
-        time_t now = time(0);
+    string timeNow(){
+        time_t now=time(0);
         return string(ctime(&now));
     }
 
-    void add(string s) {
-        logs.push_back(timeNow() + " -> " + s);
+    void add(string s){
+        logs.push_back(timeNow()+" -> "+s);
     }
 
-    void show() {
-        cout << "\n📜 SYSTEM LOGS\n";
-        for (auto &x : logs)
-            cout << "• " << x;
+    void show(){
+        cout<<"\n📜 LOGS\n";
+        for(auto &x:logs)
+            cout<<"• "<<x;
     }
 };
 
