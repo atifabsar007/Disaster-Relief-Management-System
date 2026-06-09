@@ -7,45 +7,41 @@ using namespace std;
 struct Shelter {
     string name;
     string location;
-    int cap;
+    int capacity;
     int used;
 };
 
 class ShelterSystem {
 public:
-    vector<Shelter> s;
+    vector<Shelter> shelters;
 
     void add(string n, string l, int c) {
-        s.push_back({n,l,c,0});
+        shelters.push_back({n, l, c, 0});
     }
 
-    bool assign(string name) {
-        for(auto &x: s) {
-            if(x.name == name) {
-                if(x.used < x.cap) {
-                    x.used++;
-                    return true;
-                }
+    bool assign(string n) {
+        for (auto &s : shelters) {
+            if (s.name == n && s.used < s.capacity) {
+                s.used++;
+                return true;
             }
         }
         return false;
     }
 
-    void show() {
-        cout << "\n🏠 SHELTERS\n";
-        for(auto &x: s) {
-            cout << x.name << " | " << x.location
-                 << " | " << x.used << "/" << x.cap << endl;
-        }
+    int active() {
+        int c = 0;
+        for (auto &s : shelters)
+            if (s.used > 0) c++;
+        return c;
     }
 
-    void summary() {
-        int total=0, used=0;
-        for(auto &x: s){
-            total += x.cap;
-            used += x.used;
+    void show() {
+        cout << "\n🏠 SHELTERS\n";
+        for (auto &s : shelters) {
+            cout << s.name << " | " << s.location
+                 << " | " << s.used << "/" << s.capacity << endl;
         }
-        cout << "\n📊 Shelter Capacity: " << used << "/" << total << endl;
     }
 };
 
