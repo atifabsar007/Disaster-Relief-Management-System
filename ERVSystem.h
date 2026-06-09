@@ -13,47 +13,52 @@ public:
 
     vector<ERV> v;
 
-    void add(string id, string l) {
-        v.push_back({id, l, false});
-        cout << "✅ ERV ADDED: " << id << " at " << l << endl;
+    void add(){
+        string id, loc;
+
+        cout << "\n🚑 ADD ERV\n";
+        cout << "Enter ERV ID: ";
+        cin >> id;
+
+        cout << "Base Location: ";
+        cin >> loc;
+
+        v.push_back({id, loc, false});
+
+        cout << "✅ ERV Added Successfully\n";
     }
 
-    void show() {
-        cout << "\n🚑 AVAILABLE ERVs\n";
-        for (auto &x : v) {
-            cout << x.id << " | "
-                 << (x.busy ? "BUSY" : "FREE") << endl;
-        }
-    }
-
-    void dispatch(string loc) {
-
+    void dispatch(string dest){
         cout << "\n🚑 ERV DISPATCH SYSTEM\n";
         cout << "Searching available ERVs...\n";
 
-        for (auto &x : v) {
-            if (!x.busy) {
+        for(auto &x:v){
+            if(!x.busy){
                 x.busy = true;
 
-                cout << "\n✅ ERV ASSIGNED SUCCESSFULLY\n";
+                cout << "\n✅ ERV ASSIGNED\n";
                 cout << "ID   : " << x.id << endl;
                 cout << "FROM : " << x.loc << endl;
-                cout << "TO   : " << loc << endl;
-                cout << "STATUS: DISPATCHED 🚑\n";
-
+                cout << "TO   : " << dest << endl;
                 return;
             }
         }
 
-        cout << "\n❌ NO ERV AVAILABLE RIGHT NOW\n";
-        cout << "Please wait or add new ERV\n";
+        cout << "❌ No ERVs Available\n";
     }
 
-    int busyCount() {
-        int c = 0;
-        for (auto &x : v)
-            if (x.busy) c++;
+    int busyCount(){
+        int c=0;
+        for(auto &x:v) if(x.busy) c++;
         return c;
+    }
+
+    void show(){
+        cout << "\n🚑 ERV STATUS\n";
+        for(auto &x:v){
+            cout << x.id << " | "
+                 << (x.busy ? "BUSY" : "FREE") << endl;
+        }
     }
 };
 
