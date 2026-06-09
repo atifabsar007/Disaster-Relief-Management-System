@@ -1,5 +1,3 @@
-// LinkedList.h
-
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
 
@@ -27,14 +25,18 @@ public:
     }
 
     void display() {
-        Node* temp = head;
 
-        cout << "\n📜 SYSTEM LOGS:\n\n";
+        cout << "\n📜 SYSTEM LOGS\n";
+        cout << "---------------------------------\n";
+
+        Node* temp = head;
 
         while(temp) {
             cout << "• " << temp->data << endl;
             temp = temp->next;
         }
+
+        cout << "---------------------------------\n";
     }
 };
 
