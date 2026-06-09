@@ -8,7 +8,7 @@ struct Patient {
     string name;
     int severity;
 
-    bool operator<(const Patient& p) const {
+    bool operator<(const Patient &p) const {
         return severity < p.severity;
     }
 };
@@ -17,12 +17,12 @@ class MedicalQueue {
 public:
     priority_queue<Patient> pq;
 
-    void add(string name, int sev) {
-        pq.push({name, sev});
+    void add(string n, int s) {
+        pq.push({n, s});
     }
 
     void treat() {
-        if(pq.empty()) {
+        if (pq.empty()) {
             cout << "No patients\n";
             return;
         }
@@ -30,7 +30,12 @@ public:
         auto p = pq.top();
         pq.pop();
 
-        cout << "🏥 Treating: " << p.name << " Sev: " << p.severity << endl;
+        cout << "🏥 Treating " << p.name
+             << " | Severity: " << p.severity << endl;
+    }
+
+    int size() {
+        return pq.size();
     }
 };
 
