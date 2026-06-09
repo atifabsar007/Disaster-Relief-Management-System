@@ -1,5 +1,3 @@
-//main.cpp
-
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -7,80 +5,147 @@ using namespace std;
 #include "Emergency.h"
 #include "BST.h"
 #include "LinkedList.h"
-#include "Team.h"
 
-int main() {
+Graph g(6);
+priority_queue<Emergency> pq;
+BST tree;
+LinkedList logSystem;
 
-    cout << "===== DISASTER RELIEF SYSTEM =====\n\n";
+void showMenu() {
+    cout << "\n=====================================\n";
+    cout << "   DISASTER RELIEF MANAGEMENT SYSTEM\n";
+    cout << "=====================================\n";
+    cout << "1. View City Network (BFS)\n";
+    cout << "2. Add Emergency\n";
+    cout << "3. Process Emergency\n";
+    cout << "4. Find Shortest Route\n";
+    cout << "5. View Disaster Records (BST)\n";
+    cout << "6. View System Logs\n";
+    cout << "0. Exit\n";
+    cout << "Enter choice: ";
+}
 
-    /* ---------------- GRAPH ---------------- */
-    Graph g(6);
-
+/* ---------------- Sample Graph Setup ---------------- */
+void setupGraph() {
     g.addEdge(0,1,4);
     g.addEdge(0,2,2);
     g.addEdge(1,3,5);
     g.addEdge(2,3,8);
     g.addEdge(3,4,6);
     g.addEdge(4,5,3);
+}
 
-    /* ---------------- BFS & DFS ---------------- */
-    g.BFS(0);
-    g.DFS(0);
+/* ---------------- MAIN ---------------- */
+int main() {
 
-    /* ---------------- PRIORITY QUEUE ---------------- */
-    priority_queue<Emergency> pq;
+    setupGraph();
 
-    pq.push({1, 3, 9});
-    pq.push({2, 5, 4});
-    pq.push({3, 2, 7});
+    int choice;
 
-    /* ---------------- BST ---------------- */
-    BST tree;
+    cout << "🚨 Welcome to Disaster Management System 🚨\n";
 
-    /* ---------------- LOG SYSTEM ---------------- */
-    LinkedList log;
+    while(true) {
 
-    cout << "\nProcessing Emergencies...\n\n";
+        showMenu();
+        cin >> choice;
 
-    while(!pq.empty()) {
+        if(choice == 0) {
+            cout << "Exiting System...\n";
+            break;
+        }
 
-        Emergency e = pq.top();
-        pq.pop();
+        /* ---------------- BFS VIEW ---------------- */
+        else if(choice == 1) {
+            cout << "\n🌐 City Network (Breadth First Search)\n";
+            cout << "Explanation: Shows nearby connected cities step-by-step\n\n";
+            g.BFS(0);
+        }
 
-        cout << "Emergency ID: " << e.id << endl;
-        cout << "City: " << e.city << endl;
-        cout << "Severity: " << e.severity << endl;
+        /* ---------------- ADD EMERGENCY ---------------- */
+        else if(choice == 2) {
+            Emergency e;
+            cout << "\nEnter Emergency ID: ";
+            cin >> e.id;
+            cout << "Enter City (0-5): ";
+            cin >> e.city;
+            cout << "Enter Severity (1-10): ";
+            cin >> e.severity;
 
-        tree.root = tree.insert(tree.root, e.severity, e.city);
+            pq.push(e);
 
-        vector<int> dist;
-        g.dijkstra(0, dist);
+            cout << "✅ Emergency Added Successfully!\n";
 
-        cout << "Distance from HQ: " << dist[e.city] << endl;
+            logSystem.insert("Emergency Added ID: " + to_string(e.id));
+        }
 
-        log.insert("Handled Emergency ID: " + to_string(e.id));
+        /* ---------------- PROCESS EMERGENCY ---------------- */
+        else if(choice == 3) {
 
-        cout << "-----------------------\n";
-    }
+            if(pq.empty()) {
+                cout << "No emergencies to process!\n";
+                continue;
+            }
 
-    /* ---------------- BST OUTPUT ---------------- */
-    cout << "\n📊 Disaster BST (Sorted by Severity):\n";
-    tree.inorder(tree.root);
+            Emergency e = pq.top();
+            pq.pop();
 
-    /* ---------------- LOG OUTPUT ---------------- */
-    cout << "\n📜 System Logs:\n";
-    log.display();
+            cout << "\n🚨 Processing Emergency...\n";
+            cout << "ID: " << e.id << endl;
+            cout << "City: " << e.city << endl;
+            cout << "Severity: " << e.severity << endl;
 
-    /* ---------------- SORTING EXAMPLE ---------------- */
-    Team teams[3] = {{1,10},{2,5},{3,20}};
+            cout << "📊 Severity based priority system activated\n";
 
-    sort(teams, teams+3, [](Team a, Team b){
-        return a.distance < b.distance;
-    });
+            vector<int> dist;
+            g.dijkstra(0, dist);
 
-    cout << "\n🚑 Sorted Teams by Distance:\n";
-    for(auto t : teams) {
-        cout << "Team " << t.id << " Distance: " << t.distance << endl;
+            cout << "🚑 Nearest Rescue Distance: " << dist[e.city] << endl;
+
+            tree.root = tree.insert(tree.root, e.severity, e.city);
+
+            logSystem.insert("Processed Emergency ID: " + to_string(e.id));
+
+            cout << "✅ Emergency Successfully Handled\n";
+        }
+
+        /* ---------------- SHORTEST PATH ---------------- */
+        else if(choice == 4) {
+
+            int src;
+            cout << "Enter source city (0-5): ";
+            cin >> src;
+
+            vector<int> dist;
+            g.dijkstra(src, dist);
+
+            cout << "\n🛣 Shortest Distances from City " << src << ":\n";
+
+            for(int i=0;i<dist.size();i++) {
+                cout << "City " << i << " => " << dist[i] << endl;
+            }
+
+            cout << "\n📌 (Lower distance = faster rescue route)\n";
+        }
+
+        /* ---------------- BST VIEW ---------------- */
+        else if(choice == 5) {
+
+            cout << "\n🌳 Disaster Records (Sorted by Severity)\n";
+            cout << "Format: City | Severity\n\n";
+
+            tree.inorder(tree.root);
+        }
+
+        /* ---------------- LOGS ---------------- */
+        else if(choice == 6) {
+
+            cout << "\n📜 System Logs:\n\n";
+            logSystem.display();
+        }
+
+        else {
+            cout << "❌ Invalid Choice!\n";
+        }
     }
 
     return 0;
