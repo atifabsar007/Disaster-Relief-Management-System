@@ -5,29 +5,21 @@
 using namespace std;
 
 struct Volunteer {
-    string name;
-    string skill;
-    bool available;
+    string name, skill;
 };
 
 class VolunteerSystem {
 public:
     vector<Volunteer> v;
 
-    void add(string name, string skill) {
-        v.push_back({name, skill, true});
+    void add(string n, string s) {
+        v.push_back({n,s});
     }
 
     void show() {
-
         cout << "\n🤝 VOLUNTEERS\n";
-        cout << "---------------------------------\n";
-
-        for(auto &x : v) {
+        for(auto &x:v)
             cout << x.name << " | " << x.skill << endl;
-        }
-
-        cout << "---------------------------------\n";
     }
 };
 
