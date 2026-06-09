@@ -1,5 +1,3 @@
-// Emergency.h
-
 #ifndef EMERGENCY_H
 #define EMERGENCY_H
 
@@ -16,9 +14,22 @@ struct Emergency {
     }
 
     void print() {
-        cout << "🚨 Emergency ID: " << id << endl;
-        cout << "📍 City: " << city << endl;
-        cout << "⚠ Severity: " << severity << endl;
+
+        cout << "\n=================================\n";
+        cout << "🚨 EMERGENCY REPORT\n";
+        cout << "=================================\n";
+        cout << "ID        : " << id << endl;
+        cout << "City      : " << city << endl;
+        cout << "Severity  : " << severity << "/10\n";
+
+        if(severity >= 8)
+            cout << "Priority  : 🔴 CRITICAL\n";
+        else if(severity >= 5)
+            cout << "Priority  : 🟡 MODERATE\n";
+        else
+            cout << "Priority  : 🟢 LOW\n";
+
+        cout << "=================================\n";
     }
 };
 
