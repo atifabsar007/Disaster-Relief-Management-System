@@ -1,5 +1,5 @@
-#ifndef MEDICALQUEUE_H
-#define MEDICALQUEUE_H
+#ifndef MEDICAL_H
+#define MEDICAL_H
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -17,39 +17,20 @@ class MedicalQueue {
 public:
     priority_queue<Patient> pq;
 
-    void addPatient(string name, int severity) {
-        pq.push({name, severity});
+    void add(string name, int sev) {
+        pq.push({name, sev});
     }
 
-    void treatPatient() {
-
+    void treat() {
         if(pq.empty()) {
-            cout << "No patients in queue!\n";
+            cout << "No patients\n";
             return;
         }
 
-        Patient p = pq.top();
+        auto p = pq.top();
         pq.pop();
 
-        cout << "\n🏥 Treating Patient: " << p.name
-             << " (Severity: " << p.severity << ")\n";
-    }
-
-    void show() {
-
-        cout << "\n🏥 MEDICAL PRIORITY QUEUE\n";
-        cout << "---------------------------------\n";
-
-        priority_queue<Patient> temp = pq;
-
-        while(!temp.empty()) {
-            Patient p = temp.top();
-            temp.pop();
-
-            cout << p.name << " | Severity: " << p.severity << endl;
-        }
-
-        cout << "---------------------------------\n";
+        cout << "🏥 Treating: " << p.name << " Sev: " << p.severity << endl;
     }
 };
 
