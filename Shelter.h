@@ -7,69 +7,45 @@ using namespace std;
 struct Shelter {
     string name;
     string location;
-    int capacity;
-    int occupied;
+    int cap;
+    int used;
 };
 
 class ShelterSystem {
 public:
-    vector<Shelter> shelters;
+    vector<Shelter> s;
 
-    void addShelter(string name, string location, int capacity) {
-        Shelter s;
-        s.name = name;
-        s.location = location;
-        s.capacity = capacity;
-        s.occupied = 0;
-        shelters.push_back(s);
+    void add(string n, string l, int c) {
+        s.push_back({n,l,c,0});
     }
 
-    bool assignVictim(string name) {
-        for(auto &s : shelters) {
-            if(s.name == name) {
-                if(s.occupied < s.capacity) {
-                    s.occupied++;
+    bool assign(string name) {
+        for(auto &x: s) {
+            if(x.name == name) {
+                if(x.used < x.cap) {
+                    x.used++;
                     return true;
                 }
-                return false;
             }
         }
         return false;
     }
 
-    void showShelters() {
+    void show() {
         cout << "\n🏠 SHELTERS\n";
-        cout << "-------------------------\n";
-
-        for(auto &s : shelters) {
-            cout << "Name: " << s.name << endl;
-            cout << "Location: " << s.location << endl;
-            cout << "Capacity: " << s.capacity << endl;
-            cout << "Occupied: " << s.occupied << endl;
-
-            if(s.occupied == s.capacity)
-                cout << "Status: FULL 🔴\n";
-            else if(s.occupied > s.capacity * 0.7)
-                cout << "Status: NEAR FULL 🟡\n";
-            else
-                cout << "Status: AVAILABLE 🟢\n";
-
-            cout << "-------------------------\n";
+        for(auto &x: s) {
+            cout << x.name << " | " << x.location
+                 << " | " << x.used << "/" << x.cap << endl;
         }
     }
 
     void summary() {
-        int cap = 0, occ = 0;
-
-        for(auto &s : shelters) {
-            cap += s.capacity;
-            occ += s.occupied;
+        int total=0, used=0;
+        for(auto &x: s){
+            total += x.cap;
+            used += x.used;
         }
-
-        cout << "\n📊 SHELTER SUMMARY\n";
-        cout << "Total Capacity: " << cap << endl;
-        cout << "Occupied: " << occ << endl;
-        cout << "Available: " << cap - occ << endl;
+        cout << "\n📊 Shelter Capacity: " << used << "/" << total << endl;
     }
 };
 
