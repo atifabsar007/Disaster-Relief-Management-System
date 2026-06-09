@@ -6,12 +6,7 @@ using namespace std;
 #include "BST.h"
 #include "LinkedList.h"
 
-Graph g(6);
-priority_queue<Emergency> pq;
-BST tree;
-LinkedList logSystem;
-
-/* 🌆 CITY LIST (USER ONLY SEES THIS) */
+/* 🌆 CITY SYSTEM (NO NUMBERS SHOWN TO USER) */
 vector<string> cities = {
     "Dhaka",
     "Chittagong",
@@ -21,44 +16,53 @@ vector<string> cities = {
     "Sylhet"
 };
 
-void showCities() {
-    cout << "\n🌆 Available Cities:\n";
-    for(int i = 0; i < cities.size(); i++) {
-        cout << "- " << cities[i] << endl;
-    }
-}
+Graph g(6);
+priority_queue<Emergency> pq;
+BST tree;
+LinkedList logs;
 
-void showMenu() {
-    cout << "\n=========================================\n";
-    cout << "   DISASTER RELIEF & MANAGEMENT SYSTEM\n";
-    cout << "=========================================\n";
-    cout << "1. View City Network (BFS)\n";
-    cout << "2. Add Emergency\n";
-    cout << "3. Process Emergency\n";
-    cout << "4. Find Shortest Route\n";
-    cout << "5. View Disaster Records (BST)\n";
-    cout << "6. View System Logs\n";
-    cout << "7. Show Cities\n";
-    cout << "0. Exit\n";
-    cout << "Enter choice: ";
+/* 🔍 CITY FINDER */
+int getCityIndex(string name) {
+    for(int i=0;i<cities.size();i++) {
+        if(cities[i] == name) return i;
+    }
+    return -1;
 }
 
 /* 🌐 GRAPH SETUP */
 void setupGraph() {
-    g.addEdge(0,1,4); // Dhaka - Chittagong
-    g.addEdge(0,2,2); // Dhaka - Khulna
+
+    g.addEdge(0,1,4);
+    g.addEdge(0,2,2);
     g.addEdge(1,3,5);
     g.addEdge(2,3,8);
     g.addEdge(3,4,6);
     g.addEdge(4,5,3);
 }
 
-/* 🔍 CITY INDEX FINDER */
-int getCityIndex(string name) {
-    for(int i=0;i<cities.size();i++) {
-        if(cities[i] == name) return i;
-    }
-    return -1;
+/* 📋 MENU */
+void menu() {
+
+    cout << "\n=====================================\n";
+    cout << " DISASTER RELIEF MANAGEMENT SYSTEM\n";
+    cout << "=====================================\n";
+    cout << "1. View City Network (BFS)\n";
+    cout << "2. View City Network (DFS)\n";
+    cout << "3. Add Emergency\n";
+    cout << "4. Process Emergency\n";
+    cout << "5. Find Shortest Routes\n";
+    cout << "6. View Disaster Records (BST)\n";
+    cout << "7. View System Logs\n";
+    cout << "0. Exit\n";
+    cout << "Enter choice: ";
+}
+
+/* 🌆 SHOW CITIES */
+void showCities() {
+
+    cout << "\n🌆 Available Cities:\n";
+    for(string c : cities)
+        cout << " - " << c << endl;
 }
 
 int main() {
@@ -71,23 +75,26 @@ int main() {
 
     while(true) {
 
-        showMenu();
+        menu();
         cin >> choice;
 
         if(choice == 0) {
-            cout << "Exiting System...\n";
+            cout << "System shutting down...\n";
             break;
         }
 
         /* 🌐 BFS */
         else if(choice == 1) {
-            cout << "\n🌐 City Network (BFS Traversal)\n";
-            cout << "Showing how cities are connected...\n\n";
-            g.BFS(0);
+            g.BFS(0, cities);
+        }
+
+        /* 🌳 DFS */
+        else if(choice == 2) {
+            g.DFS(0, cities);
         }
 
         /* 🚨 ADD EMERGENCY */
-        else if(choice == 2) {
+        else if(choice == 3) {
 
             Emergency e;
 
@@ -107,14 +114,14 @@ int main() {
             cout << "\n✅ Emergency Added Successfully!\n";
             e.print();
 
-            logSystem.insert("Added Emergency in " + e.city);
+            logs.insert("Emergency added in " + e.city);
         }
 
-        /* 🚑 PROCESS EMERGENCY */
-        else if(choice == 3) {
+        /* 🚑 PROCESS */
+        else if(choice == 4) {
 
             if(pq.empty()) {
-                cout << "No emergencies available!\n";
+                cout << "No emergencies!\n";
                 continue;
             }
 
@@ -135,27 +142,25 @@ int main() {
 
             tree.root = tree.insert(tree.root, e.city, e.severity);
 
-            logSystem.insert("Processed Emergency in " + e.city);
-
-            cout << "✅ Emergency Handled Successfully\n";
+            logs.insert("Processed emergency in " + e.city);
         }
 
-        /* 🛣 SHORTEST ROUTE */
-        else if(choice == 4) {
+        /* 🛣 SHORTEST PATH */
+        else if(choice == 5) {
 
-            string srcCity;
+            string src;
 
             showCities();
-            cout << "\nEnter Source City: ";
-            cin >> srcCity;
 
-            int src = getCityIndex(srcCity);
+            cout << "\nEnter Source City: ";
+            cin >> src;
+
+            int s = getCityIndex(src);
 
             vector<int> dist;
-            g.dijkstra(src, dist);
+            g.dijkstra(s, dist);
 
-            cout << "\n🛣 Shortest Distances from " 
-                 << srcCity << ":\n\n";
+            cout << "\n🛣 Shortest Routes:\n\n";
 
             for(int i=0;i<cities.size();i++) {
                 cout << cities[i] << " => " << dist[i] << endl;
@@ -163,26 +168,20 @@ int main() {
         }
 
         /* 🌳 BST */
-        else if(choice == 5) {
+        else if(choice == 6) {
 
-            cout << "\n🌳 Disaster Records (Sorted by Severity)\n\n";
+            cout << "\n🌳 Disaster Records:\n\n";
             tree.inorder(tree.root);
         }
 
         /* 📜 LOGS */
-        else if(choice == 6) {
-
-            cout << "\n📜 System Logs:\n\n";
-            logSystem.display();
-        }
-
-        /* 🌆 SHOW CITIES */
         else if(choice == 7) {
-            showCities();
+
+            logs.display();
         }
 
         else {
-            cout << "❌ Invalid Choice!\n";
+            cout << "Invalid choice!\n";
         }
     }
 
