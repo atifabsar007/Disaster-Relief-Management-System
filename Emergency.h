@@ -8,16 +8,16 @@ using namespace std;
 
 struct Emergency {
     int id;
-    int city;
+    string city;
     int severity;
 
     bool operator<(const Emergency &e) const {
-        return severity < e.severity; // max heap
+        return severity < e.severity;
     }
 
-    void print(string cityName[]) {
+    void print() {
         cout << "ID: " << id
-             << " | City: " << cityName[city]
+             << " | City: " << city
              << " | Severity: " << severity << endl;
     }
 };
