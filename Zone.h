@@ -7,10 +7,10 @@ using namespace std;
 class ZoneSystem {
 public:
     void classify(int v){
-        cout<<"\n🧭 ZONE STATUS: ";
-        if(v>50) cout<<"🔴 RED ZONE\n";
-        else if(v>20) cout<<"🟡 YELLOW ZONE\n";
-        else cout<<"🟢 GREEN ZONE\n";
+        cout << "\n🧭 ZONE: ";
+        if(v>50) cout << "🔴 RED\n";
+        else if(v>20) cout << "🟡 YELLOW\n";
+        else cout << "🟢 GREEN\n";
     }
 };
 
