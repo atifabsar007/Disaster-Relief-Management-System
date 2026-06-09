@@ -15,21 +15,19 @@ public:
 
     void add(){
         string n;
-        int choice;
+        int c;
 
-        cout << "\n🤝 ENTER VOLUNTEER NAME: ";
+        cout << "\n🤝 VOLUNTEER NAME: ";
         cin >> n;
 
         cout << "\nSELECT SKILL:\n";
-        cout << "1. Medical 🏥\n";
-        cout << "2. Rescue 🚑\n";
-        cout << "3. Logistics 📦\n";
+        cout << "1. Medical 🏥\n2. Rescue 🚑\n3. Logistics 📦\n";
         cout << "Choice: ";
-        cin >> choice;
+        cin >> c;
 
         string skill;
-        if(choice==1) skill="Medical";
-        else if(choice==2) skill="Rescue";
+        if(c==1) skill="Medical";
+        else if(c==2) skill="Rescue";
         else skill="Logistics";
 
         v.push_back({n,skill});
