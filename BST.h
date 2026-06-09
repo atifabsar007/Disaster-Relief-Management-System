@@ -21,6 +21,7 @@ public:
     }
 
     BSTNode* insert(BSTNode* node, string city, int severity) {
+
         if(node == NULL) {
             BSTNode* temp = new BSTNode();
             temp->city = city;
@@ -38,12 +39,13 @@ public:
     }
 
     void inorder(BSTNode* node) {
+
         if(node == NULL) return;
 
         inorder(node->left);
 
-        cout << "City: " << node->city
-             << " | Severity: " << node->severity << endl;
+        cout << "📍 City: " << node->city
+             << " | ⚠ Severity: " << node->severity << endl;
 
         inorder(node->right);
     }
