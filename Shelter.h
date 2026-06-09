@@ -19,15 +19,13 @@ public:
     }
 
     string autoAssign(){
-        if(s.empty()) return "NO SHELTER AVAILABLE";
-
         for(auto &x:s){
             if(x.used < x.cap){
                 x.used++;
                 return x.name;
             }
         }
-        return "ALL SHELTERS FULL";
+        return "NO SHELTER AVAILABLE";
     }
 
     void show(){
@@ -36,6 +34,15 @@ public:
             cout << "• " << x.name
                  << " | " << x.used << "/" << x.cap << endl;
         }
+    }
+
+    // ✅ FIXED FUNCTION (WAS MISSING BEFORE)
+    int active(){
+        int c = 0;
+        for(auto &x:s){
+            if(x.used > 0) c++;
+        }
+        return c;
     }
 };
 
