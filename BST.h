@@ -7,8 +7,8 @@
 using namespace std;
 
 struct BSTNode {
+    string city;
     int severity;
-    int city;
     BSTNode *left, *right;
 };
 
@@ -20,32 +20,32 @@ public:
         root = NULL;
     }
 
-    BSTNode* insert(BSTNode* node, int severity, int city) {
+    BSTNode* insert(BSTNode* node, string city, int severity) {
         if(node == NULL) {
             BSTNode* temp = new BSTNode();
-            temp->severity = severity;
             temp->city = city;
+            temp->severity = severity;
             temp->left = temp->right = NULL;
             return temp;
         }
 
         if(severity < node->severity)
-            node->left = insert(node->left, severity, city);
+            node->left = insert(node->left, city, severity);
         else
-            node->right = insert(node->right, severity, city);
+            node->right = insert(node->right, city, severity);
 
         return node;
     }
 
-    void inorder(BSTNode* node, string cityName[]) {
+    void inorder(BSTNode* node) {
         if(node == NULL) return;
 
-        inorder(node->left, cityName);
+        inorder(node->left);
 
-        cout << "City: " << cityName[node->city]
+        cout << "City: " << node->city
              << " | Severity: " << node->severity << endl;
 
-        inorder(node->right, cityName);
+        inorder(node->right);
     }
 };
 
