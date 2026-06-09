@@ -10,17 +10,19 @@ public:
 
     void use(string t){
         if(t=="food") food--;
-        if(t=="water") water--;
-        if(t=="med") med--;
-        if(t=="blanket") blanket--;
+        else if(t=="water") water--;
+        else if(t=="med") med--;
+        else blanket--;
 
-        cout<<"✅ Supply Updated\n";
+        cout << "✅ Supply Updated\n";
     }
 
     void show(){
-        cout<<"\n📦 SUPPLIES\n";
-        cout<<"Food:"<<food<<" Water:"<<water
-            <<" Med:"<<med<<" Blanket:"<<blanket<<endl;
+        cout << "\n📦 SUPPLIES\n";
+        cout << "Food:" << food
+             << " Water:" << water
+             << " Med:" << med
+             << " Blanket:" << blanket << endl;
     }
 };
 
