@@ -15,28 +15,26 @@ public:
 
     void add(string n,string l,int c){
         s.push_back({n,l,c,0});
+        cout << "✅ Shelter Added: " << n << endl;
     }
 
     string autoAssign(){
+        if(s.empty()) return "NO SHELTER AVAILABLE";
+
         for(auto &x:s){
             if(x.used < x.cap){
                 x.used++;
                 return x.name;
             }
         }
-        return "NO SHELTER AVAILABLE";
-    }
-
-    int active(){
-        int c=0;
-        for(auto &x:s) if(x.used>0) c++;
-        return c;
+        return "ALL SHELTERS FULL";
     }
 
     void show(){
-        cout<<"\n🏠 SHELTERS\n";
+        cout << "\n🏠 SHELTER STATUS\n";
         for(auto &x:s){
-            cout<<x.name<<" | "<<x.used<<"/"<<x.cap<<endl;
+            cout << "• " << x.name
+                 << " | " << x.used << "/" << x.cap << endl;
         }
     }
 };
