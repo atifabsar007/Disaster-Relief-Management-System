@@ -7,7 +7,7 @@
 using namespace std;
 
 struct Emergency {
-    int id;
+    string id;
     string city;
     int severity;
 
@@ -16,9 +16,9 @@ struct Emergency {
     }
 
     void print() {
-        cout << "ID: " << id
-             << " | City: " << city
-             << " | Severity: " << severity << endl;
+        cout << "🚨 Emergency ID: " << id << endl;
+        cout << "📍 City: " << city << endl;
+        cout << "⚠ Severity: " << severity << endl;
     }
 };
 
