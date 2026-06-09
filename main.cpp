@@ -21,8 +21,6 @@ LogSystem logs;
 Dashboard dash;
 ZoneSystem zone;
 
-// ---------------- UI ----------------
-
 void menu(){
     cout << "\n=================================\n";
     cout << " 🌍 DISASTER RELIEF SYSTEM\n";
@@ -32,17 +30,15 @@ void menu(){
     cout << "3. Search Victim\n";
     cout << "4. Dashboard\n";
     cout << "5. Add Shelter\n";
-    cout << "6. Medical Triage\n";
+    cout << "6. Add Medical Case\n";
     cout << "7. Supply System\n";
     cout << "8. Add Volunteer\n";
-    cout << "9. ERV Dispatch\n";
-    cout << "10. Show Logs\n";
+    cout << "9. ERV System\n";
+    cout << "10. View Logs\n";
     cout << "11. Zone Check\n";
     cout << "0. Exit\n";
     cout << "Enter choice: ";
 }
-
-// ---------------- MAIN ----------------
 
 int main(){
     int ch;
@@ -51,59 +47,75 @@ int main(){
         menu();
         cin >> ch;
 
-        if(ch == 0) break;
+        if(ch==0) break;
 
         // ---------------- VICTIM ----------------
-        else if(ch == 1){
-            string name, gender, cond;
-            int age;
+        else if(ch==1){
+            string n,g,c;
+            int a;
 
-            cout << "\n👤 ENTER VICTIM DETAILS\n";
-            cout << "Name: ";
-            cin >> name;
+            cout << "\n👤 NAME: "; cin >> n;
+            cout << "AGE: "; cin >> a;
 
-            cout << "Age: ";
-            cin >> age;
+            cout << "\nGENDER (M/F): ";
+            cin >> g;
 
-            cout << "Gender: ";
-            cin >> gender;
+            cout << "\nCONDITION:\n";
+            cout << "1. Critical 🔴\n2. Serious 🟡\n3. Minor 🟢\n";
+            int x; cin >> x;
 
-            cout << "\nSelect Condition:\n";
-            cout << "1. Critical 🔴\n";
-            cout << "2. Serious 🟡\n";
-            cout << "3. Minor 🟢\n";
-            cout << "Choice: ";
+            if(x==1) c="Critical";
+            else if(x==2) c="Serious";
+            else c="Minor";
 
-            int c; cin >> c;
+            string sh = shelters.autoAssign();
 
-            if(c == 1) cond = "Critical";
-            else if(c == 2) cond = "Serious";
-            else cond = "Minor";
+            cout << "🏠 Assigned Shelter: " << sh << endl;
 
-            string shelter = shelters.autoAssign();
-
-            cout << "\n🏠 Assigned Shelter: " << shelter << endl;
-
-            victims.add(name, age, gender, cond, shelter);
-
-            logs.add("Victim added: " + name);
+            victims.add(n,a,g,c,sh);
+            logs.add("Victim added: " + n);
         }
 
-        // ---------------- SHOW VICTIMS ----------------
-        else if(ch == 2){
-            victims.show();
+        // ---------------- SHELTER ----------------
+        else if(ch==5){
+            string n,l;
+            int c;
+
+            cout << "\n🏠 SHELTER NAME: "; cin >> n;
+            cout << "LOCATION: "; cin >> l;
+            cout << "CAPACITY: "; cin >> c;
+
+            shelters.add(n,l,c);
         }
 
-        // ---------------- SEARCH ----------------
-        else if(ch == 3){
-            string n;
-            cout << "Enter Name: ";
-            cin >> n;
-            victims.search(n);
+        // ---------------- VOLUNTEER ----------------
+        else if(ch==8){
+            volunteers.add();
+            logs.add("Volunteer added");
+        }
+
+        // ---------------- ERV ----------------
+        else if(ch==9){
+            int op;
+            cout << "\n1. Add ERV\n2. Dispatch ERV\nChoice: ";
+            cin >> op;
+
+            if(op==1){
+                erv.add();
+                logs.add("ERV added");
+            }
+            else{
+                string dest;
+                cout << "Enter Destination: ";
+                cin >> dest;
+
+                erv.dispatch(dest);
+                logs.add("ERV dispatched");
+            }
         }
 
         // ---------------- DASHBOARD ----------------
-        else if(ch == 4){
+        else if(ch==4){
             dash.show(
                 victims.count(),
                 victims.critical(),
@@ -115,101 +127,36 @@ int main(){
             );
         }
 
-        // ---------------- SHELTER ----------------
-        else if(ch == 5){
-            string n,l;
-            int c;
+        // ---------------- OTHER SYSTEMS ----------------
+        else if(ch==2) victims.show();
 
-            cout << "\n🏠 Add Shelter\n";
-            cout << "Name: ";
+        else if(ch==3){
+            string n;
+            cout << "Enter Name: ";
             cin >> n;
-            cout << "Location: ";
-            cin >> l;
-            cout << "Capacity: ";
-            cin >> c;
-
-            shelters.add(n,l,c);
-            cout << "✅ Shelter Added\n";
+            victims.search(n);
         }
 
-        // ---------------- MEDICAL ----------------
-        else if(ch == 6){
-            string n;
-            int s;
+        else if(ch==10) logs.show();
 
-            cout << "\n🏥 Patient Name: ";
-            cin >> n;
+        else if(ch==11) zone.classify(victims.critical());
 
-            cout << "Severity (1-10): ";
-            cin >> s;
-
+        else if(ch==6){
+            string n; int s;
+            cin >> n >> s;
             medical.add(n,s);
             medical.treat();
         }
 
-        // ---------------- SUPPLY ----------------
-        else if(ch == 7){
-            cout << "\n📦 Supply Menu\n";
-            cout << "1. Food\n2. Water\n3. Medicine\n4. Blanket\n";
-            cout << "Choice: ";
-
+        else if(ch==7){
             int x;
+            cout << "\n1.Food 2.Water 3.Med 4.Blanket\n";
             cin >> x;
 
-            if(x == 1) supply.use("food");
-            else if(x == 2) supply.use("water");
-            else if(x == 3) supply.use("med");
+            if(x==1) supply.use("food");
+            else if(x==2) supply.use("water");
+            else if(x==3) supply.use("med");
             else supply.use("blanket");
         }
-
-        // ---------------- VOLUNTEER ----------------
-        else if(ch == 8){
-            string n,s;
-
-            cout << "\n🤝 Volunteer Name: ";
-            cin >> n;
-
-            cout << "Skill: ";
-            cin >> s;
-
-            volunteers.add(n,s);
-
-            cout << "✅ Volunteer Added\n";
-        }
-
-        // ---------------- ERV ----------------
-        else if(ch == 9){
-            string id, loc;
-
-            cout << "\n🚑 ERV SYSTEM\n";
-
-            if(erv.v.size() == 0){
-                cout << "⚠ No ERVs available. Add ERV first!\n";
-                cout << "Enter ERV ID: ";
-                cin >> id;
-
-                cout << "Location: ";
-                cin >> loc;
-
-                erv.add(id, loc);
-            }
-
-            cout << "\nEnter Emergency Destination: ";
-            cin >> loc;
-
-            erv.dispatch(loc);
-        }
-
-        // ---------------- LOGS ----------------
-        else if(ch == 10){
-            logs.show();
-        }
-
-        // ---------------- ZONE ----------------
-        else if(ch == 11){
-            zone.classify(victims.critical());
-        }
     }
-
-    return 0;
 }
