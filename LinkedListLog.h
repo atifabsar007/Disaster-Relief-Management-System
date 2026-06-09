@@ -1,5 +1,6 @@
 #ifndef LOG_H
 #define LOG_H
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -7,20 +8,20 @@ class LogSystem {
 public:
     vector<string> logs;
 
-    string timeNow(){
-        time_t now=time(0);
+    string timeNow() {
+        time_t now = time(0);
         return string(ctime(&now));
     }
 
-    void add(string s){
-        string entry = timeNow() + " -> " + s;
-        logs.push_back(entry);
+    void add(string s) {
+        logs.push_back(timeNow() + " -> " + s);
     }
 
-    void show(){
-        cout<<"\n📜 SYSTEM LOGS (TIMELINE)\n";
-        for(auto &x:logs)
-            cout<<"• "<<x;
+    void show() {
+        cout << "\n📜 SYSTEM LOGS\n";
+        for (auto &x : logs)
+            cout << "• " << x;
     }
 };
+
 #endif
