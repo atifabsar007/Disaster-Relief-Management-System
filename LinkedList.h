@@ -28,8 +28,11 @@ public:
 
     void display() {
         Node* temp = head;
+
+        cout << "\n📜 SYSTEM LOGS:\n\n";
+
         while(temp) {
-            cout << temp->data << endl;
+            cout << "• " << temp->data << endl;
             temp = temp->next;
         }
     }
