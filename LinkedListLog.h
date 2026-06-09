@@ -9,8 +9,8 @@ public:
     vector<string> logs;
 
     string timeNow(){
-        time_t now=time(0);
-        return string(ctime(&now));
+        time_t t=time(0);
+        return string(ctime(&t));
     }
 
     void add(string s){
@@ -18,9 +18,9 @@ public:
     }
 
     void show(){
-        cout<<"\n📜 LOGS\n";
+        cout << "\n📜 LOGS\n";
         for(auto &x:logs)
-            cout<<"• "<<x;
+            cout << "• " << x;
     }
 };
 
