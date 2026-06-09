@@ -1,41 +1,27 @@
-#ifndef SUPPLYSYSTEM_H
-#define SUPPLYSYSTEM_H
+#ifndef SUPPLY_H
+#define SUPPLY_H
 
 #include <bits/stdc++.h>
 using namespace std;
 
 class SupplySystem {
 public:
-    queue<string> supplies;
+    int food=100, water=100, med=50, blanket=80;
 
-    void addSupply(string item) {
-        supplies.push(item);
-    }
+    void use(string t) {
+        if(t=="food") food--;
+        if(t=="water") water--;
+        if(t=="med") med--;
+        if(t=="blanket") blanket--;
 
-    void distribute() {
-
-        if(supplies.empty()) {
-            cout << "No supplies left!\n";
-            return;
-        }
-
-        cout << "📦 Distributed: " << supplies.front() << endl;
-        supplies.pop();
+        if(food<=10 || water<=10)
+            cout << "⚠ LOW SUPPLY ALERT!\n";
     }
 
     void show() {
-
-        cout << "\n📦 SUPPLY STOCK\n";
-        cout << "---------------------------------\n";
-
-        queue<string> temp = supplies;
-
-        while(!temp.empty()) {
-            cout << "- " << temp.front() << endl;
-            temp.pop();
-        }
-
-        cout << "---------------------------------\n";
+        cout << "\n📦 SUPPLY\n";
+        cout << "Food:" << food << " Water:" << water
+             << " Med:" << med << " Blanket:" << blanket << endl;
     }
 };
 
