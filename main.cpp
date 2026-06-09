@@ -3,9 +3,10 @@ using namespace std;
 
 #include "Graph.h"
 #include "Emergency.h"
+#include "BST.h"
 #include "LinkedList.h"
 
-/* 🌆 CITY LIST (NO NUMBERS FOR USER) */
+/* 🌆 CITY LIST (USER FRIENDLY) */
 vector<string> cities = {
     "Dhaka",
     "Chittagong",
@@ -19,10 +20,11 @@ Graph g(6);
 priority_queue<Emergency> pq;
 LinkedList logs;
 
-/* 🔍 CITY FINDER */
+/* 🔍 FIND CITY INDEX INTERNALLY */
 int getCityIndex(string name) {
-    for(int i=0;i<cities.size();i++)
-        if(cities[i]==name) return i;
+    for(int i = 0; i < cities.size(); i++) {
+        if(cities[i] == name) return i;
+    }
     return -1;
 }
 
@@ -46,9 +48,9 @@ void menu() {
     cout << "1. View City Network (BFS)\n";
     cout << "2. View City Network (DFS)\n";
     cout << "3. Add Emergency\n";
-    cout << "4. Process Emergency\n";
-    cout << "5. Find Shortest Routes\n";
-    cout << "6. View System Logs\n";
+    cout << "4. Find Shortest Route\n";
+    cout << "5. Process Emergency\n";
+    cout << "6. View Logs\n";
     cout << "0. Exit\n";
     cout << "Enter choice: ";
 }
@@ -113,8 +115,54 @@ int main() {
             logs.insert("Emergency reported in " + e.city);
         }
 
-        /* 🚑 PROCESS */
+        /* 🛣 SHORTEST ROUTE (FIXED) */
         else if(choice == 4) {
+
+            string srcCity;
+
+            cout << "\n=====================================\n";
+            cout << "🛣 SHORTEST ROUTE FINDER\n";
+            cout << "=====================================\n";
+
+            showCities();
+
+            cout << "\nEnter Source City Name: ";
+            cin >> srcCity;
+
+            int src = getCityIndex(srcCity);
+
+            if(src == -1) {
+                cout << "\n❌ Invalid City Name! Try again.\n";
+                continue;
+            }
+
+            vector<int> dist;
+            g.dijkstra(src, dist);
+
+            cout << "\n=====================================\n";
+            cout << "🛣 RESCUE ROUTE ANALYSIS\n";
+            cout << "Source City: " << srcCity << "\n";
+            cout << "=====================================\n\n";
+
+            for(int i = 0; i < cities.size(); i++) {
+
+                cout << "➡ " << cities[i] << " : ";
+
+                if(i == src)
+                    cout << "You are already here (0 km)\n";
+                else if(dist[i] < 5)
+                    cout << dist[i] << " km (VERY CLOSE)\n";
+                else if(dist[i] < 10)
+                    cout << dist[i] << " km (MODERATE)\n";
+                else
+                    cout << dist[i] << " km (FAR)\n";
+            }
+
+            cout << "=====================================\n";
+        }
+
+        /* 🚑 PROCESS EMERGENCY */
+        else if(choice == 5) {
 
             if(pq.empty()) {
                 cout << "No emergencies found!\n";
@@ -137,40 +185,6 @@ int main() {
                  << e.city << " = " << dist[dest] << " km\n";
 
             logs.insert("Processed emergency in " + e.city);
-        }
-
-        /* 🛣 SHORTEST ROUTE */
-        else if(choice == 5) {
-
-            string src;
-            showCities();
-
-            cout << "\nEnter Source City: ";
-            cin >> src;
-
-            int s = getCityIndex(src);
-
-            vector<int> dist;
-            g.dijkstra(s, dist);
-
-            cout << "\n🛣 RESCUE ROUTE ANALYSIS\n";
-            cout << "---------------------------------\n";
-
-            for(int i=0;i<cities.size();i++) {
-
-                cout << cities[i] << " : ";
-
-                if(dist[i]==0)
-                    cout << "You are here (0 km)\n";
-                else if(dist[i]<5)
-                    cout << dist[i] << " km (Very Close)\n";
-                else if(dist[i]<10)
-                    cout << dist[i] << " km (Moderate)\n";
-                else
-                    cout << dist[i] << " km (Far)\n";
-            }
-
-            cout << "---------------------------------\n";
         }
 
         /* 📜 LOGS */
