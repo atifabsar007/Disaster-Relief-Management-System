@@ -6,15 +6,11 @@ using namespace std;
 
 class ZoneSystem {
 public:
-    void classify(int victims) {
-        cout << "\n🧭 ZONE STATUS: ";
-
-        if (victims > 50)
-            cout << "🔴 RED ZONE (CRITICAL)\n";
-        else if (victims > 20)
-            cout << "🟡 YELLOW ZONE (MODERATE)\n";
-        else
-            cout << "🟢 GREEN ZONE (SAFE)\n";
+    void classify(int v){
+        cout<<"\n🧭 ZONE STATUS: ";
+        if(v>50) cout<<"🔴 RED ZONE\n";
+        else if(v>20) cout<<"🟡 YELLOW ZONE\n";
+        else cout<<"🟢 GREEN ZONE\n";
     }
 };
 
