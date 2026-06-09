@@ -1,5 +1,3 @@
-//Graph.cpp
-
 #include "Graph.h"
 
 Graph::Graph(int v) {
@@ -20,46 +18,61 @@ void Graph::BFS(int start, vector<string> &city) {
     q.push(start);
     visited[start] = true;
 
-    cout << "\n🌐 City Network (BFS Traversal)\n\n";
+    cout << "\n🌐 CITY NETWORK (BFS)\n";
+    cout << "---------------------------------\n";
 
     while(!q.empty()) {
+
         int u = q.front();
         q.pop();
 
-        cout << "➡ " << city[u] << endl;
+        cout << "➡ " << city[u] << " is connected\n";
 
         for(auto edge : adj[u]) {
             int v = edge.first;
+
             if(!visited[v]) {
                 visited[v] = true;
                 q.push(v);
             }
         }
     }
+
+    cout << "---------------------------------\n";
 }
 
 /* 🌳 DFS */
-void Graph::DFSUtil(int v, vector<bool> &visited, vector<string> &city) {
-
-    visited[v] = true;
-    cout << "➡ " << city[v] << endl;
-
-    for(auto edge : adj[v]) {
-        if(!visited[edge.first]) {
-            DFSUtil(edge.first, visited, city);
-        }
-    }
-}
-
 void Graph::DFS(int start, vector<string> &city) {
 
     vector<bool> visited(V,false);
+    stack<int> st;
 
-    cout << "\n🌳 City Network (DFS Traversal)\n\n";
-    DFSUtil(start, visited, city);
+    st.push(start);
+
+    cout << "\n🌳 CITY NETWORK (DFS)\n";
+    cout << "---------------------------------\n";
+
+    while(!st.empty()) {
+
+        int u = st.top();
+        st.pop();
+
+        if(!visited[u]) {
+
+            visited[u] = true;
+            cout << "➡ " << city[u] << endl;
+
+            for(auto edge : adj[u]) {
+                if(!visited[edge.first])
+                    st.push(edge.first);
+            }
+        }
+    }
+
+    cout << "---------------------------------\n";
 }
 
-/* 🚑 Dijkstra */
+/* 🚑 DIJKSTRA */
 void Graph::dijkstra(int src, vector<int> &dist) {
 
     dist.assign(V, INT_MAX);
