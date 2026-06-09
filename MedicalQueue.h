@@ -23,13 +23,14 @@ public:
 
     void treat(){
         if(pq.empty()){
-            cout<<"No Patients\n";
+            cout << "No Patients\n";
             return;
         }
 
         auto p=pq.top(); pq.pop();
-        cout<<"\n🏥 TREATING PATIENT\n";
-        cout<<"Name: "<<p.name<<" | Severity: "<<p.severity<<endl;
+        cout << "\n🏥 TREATING PATIENT\n";
+        cout << "Name: " << p.name
+             << " | Severity: " << p.severity << endl;
     }
 };
 
