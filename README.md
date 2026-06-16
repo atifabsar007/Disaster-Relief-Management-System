@@ -4,8 +4,8 @@ A C++ based Disaster Relief and Management System designed using Data Structures
 
 The system allows users to register affected people, allocate shelters, track available relief resources, manage volunteer information, and monitor emergency assistance requests through a menu-driven interface. Various DSA concepts such as linked lists, queues, stacks, searching, sorting, and file handling are used to ensure efficient data management and retrieval.
 
---- Header Files --- 
 
+--- Header Files --- 
 Victim.h
 Shelter.h
 Volunteer.h
@@ -17,8 +17,8 @@ Stack.h
 FileManager.h
 DisasterReliefSystem.h
 
---- Key Features --- 
 
+--- Key Features --- 
 Victim Registration & Management
 Shelter Allocation & Tracking
 Volunteer Management
