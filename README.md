@@ -1,4 +1,4 @@
-# Disaster Relief and Management System
+# Disaster Relief and Management System | CSE 2106 Project
 
 A C++ based Disaster Relief and Management System built using Data Structures and Object-Oriented Programming concepts. The system helps manage victims, shelters, volunteers, resources, and emergency requests efficiently during disaster situations.
 
@@ -23,7 +23,7 @@ A C++ based Disaster Relief and Management System built using Data Structures an
 - File-Based Data Persistence
 - DSA-Based Data Organization
 
-## Technologies Used
+## Concepts Used
 
 - C++ Programming Language
 - Linked Lists
