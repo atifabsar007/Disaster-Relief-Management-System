@@ -8,12 +8,26 @@ class SupplySystem {
 public:
     int food = 100, water = 100, med = 50, blanket = 80;
 
-    void use(string t) {
-        if (t == "food") food--;
-        else if (t == "water") water--;
-        else if (t == "med") med--;
-        else blanket--;
+    bool use(const string& type) {
+        int* selectedSupply = nullptr;
+
+        if (type == "food") selectedSupply = &food;
+        else if (type == "water") selectedSupply = &water;
+        else if (type == "med") selectedSupply = &med;
+        else if (type == "blanket") selectedSupply = &blanket;
+        else {
+            cout << "Unknown supply type. No inventory changed.\n";
+            return false;
+        }
+
+        if (*selectedSupply <= 0) {
+            cout << "Insufficient " << type << " supply. Inventory unchanged.\n";
+            return false;
+        }
+
+        --(*selectedSupply);
         cout << "Supply Updated\n";
+        return true;
     }
 
     void show() {
